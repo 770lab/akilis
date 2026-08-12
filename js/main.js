@@ -1,5 +1,5 @@
 /* ============================================================
-   VILLA MARAVILHA — scroll choreography & atmosphere
+   ACHILLE IMMOBILIER — scroll choreography & atmosphere
    ============================================================ */
 (function () {
   'use strict';
@@ -258,7 +258,7 @@
       var body = 'Stay request%0D%0A%0D%0AArrival: ' + encodeURIComponent(arrival) +
         '%0D%0ADeparture: ' + encodeURIComponent(departure) +
         '%0D%0AGuests: ' + encodeURIComponent(guests);
-      window.location.href = 'mailto:stay@villamaravilha.mx?subject=Villa%20Maravilha%20—%20Stay%20request&body=' + body;
+      window.location.href = 'mailto:contact@achille-immobilier.com?subject=Achille%20Immobilier%20—%20Stay%20request&body=' + body;
     });
   }
 })();
