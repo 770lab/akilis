@@ -493,6 +493,18 @@ button { background: none; border: 0; color: inherit; font: inherit; cursor: poi
 }
 .walk-bar { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
 
+/* hero overlay on the opening walkthrough */
+.walk-hero { position: absolute; inset: 0; z-index: 18; }
+.walk-hero .hero-copy--walk {
+  opacity: 1; transform: translateY(-42%); transition: none;
+}
+.walk-hero .bar--hero { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45); }
+.walk-hero .scroll-cue { bottom: 74px; }
+
+/* dezoom wrapper — aerial reveal at the end */
+.dz { position: relative; height: 320vh; }
+.dz .dz-pin { position: sticky; top: 0; }
+
 .walk-caption {
   position: absolute; left: 7vw; bottom: 18%;
   z-index: 12; opacity: 0; transform: translateY(18px);

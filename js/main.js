@@ -44,14 +44,12 @@
       if (entry.isIntersecting) entry.target.classList.add('is-active');
     });
   }, { threshold: 0.45 });
-  scenes.forEach(function (s) { io.observe(s); });
-
-  /* first scene activates on load */
-  setTimeout(function () { scenes[0].classList.add('is-active'); }, 900);
+  scenes.forEach(function (s) { if (s.id !== 's2') io.observe(s); });
 
   /* ---------------- parallax per scene ---------------- */
   if (!reduceMotion) {
     scenes.forEach(function (scene) {
+      if (scene.id === 's2') return; /* the aerial is driven by the dezoom below */
       var img = scene.querySelector('.scene-bg img');
       if (img) {
         gsap.fromTo(img,
@@ -227,7 +225,8 @@
 
       var fill = document.getElementById('walkProgressFill');
       var caps = walk.querySelectorAll('.walk-caption');
-      var RANGES = [[0.04, 0.3], [0.36, 0.62], [0.68, 0.97]];
+      var heroOverlay = document.getElementById('walkHero');
+      var RANGES = [[0.16, 0.36], [0.42, 0.62], [0.68, 0.97]];
 
       ScrollTrigger.create({
         trigger: walk,
@@ -237,6 +236,11 @@
           var p = self.progress;
           target = p * (COUNT - 1);
           if (fill) fill.style.transform = 'scaleX(' + p + ')';
+          if (heroOverlay) {
+            var o = Math.max(0, 1 - p * 8);
+            heroOverlay.style.opacity = o;
+            heroOverlay.style.pointerEvents = o < 0.4 ? 'none' : '';
+          }
           caps.forEach(function (c, idx) {
             var r = RANGES[idx] || [2, 3];
             c.classList.toggle('is-on', p >= r[0] && p <= r[1]);
@@ -244,6 +248,29 @@
           walk.classList.toggle('is-done', p > 0.97);
         }
       });
+    }
+  })();
+
+  /* ---------------- aerial dezoom finale ---------------- */
+  (function initDezoom() {
+    var dz = document.getElementById('dz');
+    var s2 = document.getElementById('s2');
+    if (!dz || !s2) return;
+    var img = s2.querySelector('.scene-bg img');
+    if (img && !reduceMotion) {
+      gsap.fromTo(img,
+        { scale: 2.4, transformOrigin: '30% 46%' },
+        {
+          scale: 1.06, ease: 'none',
+          scrollTrigger: {
+            trigger: dz, start: 'top top', end: 'bottom bottom', scrub: true,
+            onUpdate: function (self) {
+              s2.classList.toggle('is-active', self.progress > 0.7);
+            }
+          }
+        });
+    } else {
+      s2.classList.add('is-active');
     }
   })();
 
